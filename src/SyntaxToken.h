@@ -11,10 +11,40 @@ enum class SyntaxKind {
     StarToken, 
     SlashToken,
     OpenParenthesisToken, 
-    CloseParanthesisToken,
+    CloseParenthesisToken,
     BadToken, 
     EndOfFileToken,
 };
+
+std::ostream& operator<<(std::ostream& os, const SyntaxKind& kind) {
+
+    switch (kind) {
+
+        case SyntaxKind::EndOfFileToken: return os << "EndOfFileToken";
+
+        case SyntaxKind::NumberToken: return os << "NumberToken";
+
+        case SyntaxKind::WhiteSpaceToken: return os << "WhiteSpaceToken";
+
+        case SyntaxKind::PlusToken: return os << "PlusToken";
+
+        case SyntaxKind::MinusToken: return os << "MinusToken";
+
+        case SyntaxKind::StarToken: return os << "StarToken";
+
+        case SyntaxKind::SlashToken: return os << "SlashToken";
+
+        case SyntaxKind::OpenParenthesisToken: return os << "OpenParenthesisToken";
+
+        case SyntaxKind::CloseParenthesisToken: return os << "CloseParanthesisToken";
+
+        case SyntaxKind::BadToken: return os << "BadToken";
+
+        default: return os << "UnknownToken";
+
+    }
+
+}
 
 class SyntaxToken{
     public:
