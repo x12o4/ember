@@ -2,7 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
-
+#include "SyntaxToken.h"
 
 bool isNullOrWhiteSpace(const std::string& str);
 
@@ -25,6 +25,20 @@ int main() {
     return 0;
 }
 
+class Lexer{
+
+  private:
+    const std::string _text; // read only
+    int _position;
+  public:
+    Lexer(const std::string& text) : _text(text) {}
+
+    std::string getText() const {
+        return _text;
+    }
+
+  
+};
 
 bool isNullOrWhiteSpace(const std::string& str) {
     if (str.empty()) {
