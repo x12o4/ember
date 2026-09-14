@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include "SyntaxToken.h"
-
+#include <optional>
 bool isNullOrWhiteSpace(const std::string& str);
 
 int main() {
@@ -62,7 +62,64 @@ class Lexer{
 
 
         }
-        return SyntaxToken(SyntaxKind::BadToken, _position, "", std::any());
+        if(std::isspace(Current())){
+            auto start = _position;
+            while(std::isspace(Current())){
+                Next();
+            }
+
+            auto length = _position - start;
+            auto text = _text.substr(start, length);
+            
+            return SyntaxToken(SyntaxKind::WhiteSpaceToken, start, text, std::stoi(text));
+
+        }
+
+        if(Current() == '+'){
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::PlusToken, start, "+", std::nullopt);
+        }
+
+        else if(Current() == '-'){
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::MinusToken, start, "+", std::nullopt);
+        }
+
+        else if(Current() == '*'){
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::StarToken, start, "+", std::nullopt);
+        }
+
+        else if(Current() == '/'){
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::SlashToken, start, "+", std::nullopt);
+        }
+
+        else if(Current() == '('){
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::OpenParenthesisToken, start, "+", std::nullopt);
+        }
+
+        else if(Current() == ')'){
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::CloseParanthesisToken, start, "+", std::nullopt);
+        }
+
+        else if(Current() == '\0'){
+            return SyntaxToken(SyntaxKind::EndOfFileToken, _position, "", std::nullopt);
+        }
+
+        else{
+            auto start = _position;
+            Next();
+            return SyntaxToken(SyntaxKind::BadToken, start, std::string(1, Current()), std::nullopt);
+        }
 
         
         
