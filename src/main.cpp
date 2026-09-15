@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <optional>
+#include <vector>
 #include "SyntaxToken.h"
 
 bool isNullOrWhiteSpace(const std::string& str);
@@ -94,7 +95,32 @@ class Lexer {
         }
     }
 };
+class Parser{
+    private:
+        int _position;
+        std::vector<SyntaxToken> tokens; // readonly
+        SyntaxToken Peek(int offset){
+            auto index = _position + offset;
+            if(index >= tokens.size()){
+                return tokens.back();
+            }
+            return tokens[index];
+        }
+    public: 
+    Parser(std::string text){
+        
+        auto lexer = Lexer(text);
+        SyntaxToken token(SyntaxKind::BadToken, 0, "", std::any{});
+        do{
+            token = lexer.NextToken();
 
+            if(token.getKind() != SyntaxKind::WhiteSpaceToken && token.getKind() != SyntaxKind::BadToken){
+                tokens.push_back(token);
+            }
+        } while(token.getKind() != SyntaxKind::EndOfFileToken);
+        
+    }
+};
 int main() {
     while (true) {
         std::cout << "> ";
