@@ -106,6 +106,7 @@ class Parser{
             }
             return tokens[index];
         }
+        SyntaxToken Current = Peek(0);
     public: 
     Parser(std::string text){
         
